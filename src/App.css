@@ -1,38 +1,319 @@
-.App {
-  text-align: center;
+:root {
+  --green: #1db954;
+  --dark: #000;
+  --light-grey: #eee;
 }
-
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
-}
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+@media (min-width: 993px) {
+  .row {
+    overflow: hidden;
+  }
+  [class*="col-"] {
+    margin-bottom: -99999px;
+    padding-bottom: 99999px;
   }
 }
-
-.App-header {
-  background-color: #282c34;
+html,
+body {
   min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
+}
+#root,
+.App {
+  min-height: 100vh !important;
+}
+.App > div:first-child {
+  min-height: 100vh !important;
+}
+* {
+  outline: none;
+}
+.br-20 {
+  border-radius: 20px !important;
+}
+.hover-pointer:hover {
+  cursor: pointer;
+}
+.text-regular {
+  font-weight: 400;
+}
+.text-medium {
+  font-weight: 600;
+}
+.text-bold {
+  font-weight: 700;
+}
+.text-green {
+  color: var(--green) !important;
+}
+.bg-green {
+  background-color: var(--green) !important;
+}
+.h-fill-available {
+  height: -webkit-fill-available;
+}
+.w-fill-available {
+  width: -webkit-fill-available;
+}
+.text-field {
+  width: 100%;
+  border: 0;
+  padding: 10px 15px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+}
+.text-field.search {
+  border: 1px solid white;
+  margin-bottom: 0 !important;
+  color: white;
+  letter-spacing: 1px;
+  cursor: white;
+}
+.text-field.search::placeholder {
+  color: white;
+  opacity: 0.6;
+}
+.btn-aspect {
+  font-weight: 600;
+  letter-spacing: 1px;
+  padding: 10px 15px;
+  border: 0;
+  width: 100%;
+  border-radius: 20px;
+  transition: 300ms !important;
+}
+.btn-aspect .fa {
+  transition: 300ms;
+}
+.btn-1 {
+  border: 0;
+  background: var(--green);
   color: white;
 }
-
-.App-link {
-  color: #61dafb;
+.btn-2 {
+  border: 0;
+  color: var(--green);
+  background: white;
+}
+.btn-1:hover {
+  background: white;
+  color: var(--green);
+}
+.btn-2:hover {
+  background: var(--green);
+  color: white;
+}
+.btn-1:hover .fa {
+  color: var(--green) !important;
 }
 
-@keyframes App-logo-spin {
-  from {
+.btn-2:hover .fa {
+  color: white !important;
+}
+
+.bg-light-grey {
+  background-color: var(--light-grey) !important;
+}
+
+.bg-black {
+  background-color: var(--dark) !important;
+}
+
+.bg-greeb {
+  background-color: var(--green) !important;
+}
+
+.logo img {
+  width: 200px;
+  height: auto;
+}
+
+.full-link-absolute {
+  top: 0;
+  left: 0;
+  z-index: 10;
+}
+
+.landing-page .header {
+  background-color: var(--green);
+  color: white;
+}
+.section-padding {
+  padding: 70px 0 70px 0;
+}
+.login-form {
+  position: relative;
+  border-radius: 10px;
+}
+
+.account-settings-popup {
+  transition: 700ms;
+  max-height: 0;
+  overflow: hidden;
+  position: absolute;
+  bottom: 0;
+  left: 0%;
+  background: white;
+  transform: translate(-100%, 100%);
+  border-radius: 20px;
+  border-top-right-radius: 0;
+  box-shadow: 15px 15px 15px rgb(0, 0, 0, 0.1);
+}
+.account-settings-wrapper:hover .account-settings-popup {
+  max-height: 300px;
+}
+.main-container {
+  height: 90vh;
+}
+.main-container > div:first-child,
+.main-container > div:last-child {
+  padding: 20px 10px;
+}
+
+.lds-ring {
+  display: inline-block;
+  position: relative;
+  width: 80px;
+  height: 80px;
+}
+
+.lds-ring div {
+  box-sizing: border-box;
+  display: block;
+  position: absolute;
+  width: 64px;
+  height: 64px;
+  margin: 8px;
+  border: 8px solid var(--green);
+  border-radius: 50%;
+  animation: lds-ring 1.2s cubic-bezier(0.5, 0, 0.5, 1) infinite;
+  border-color: var(--green) transparent transparent transparent;
+}
+.lds-ring.white div {
+  border: 8px solid white;
+  border-color: white transparent transparent transparent;
+}
+
+.lds-ring div:nth-child(1) {
+  animation-delay: -0.45s;
+}
+
+.lds-ring div:nth-child(2) {
+  animation-delay: -0.3s;
+}
+
+.lds-ring div:nth-child(3) {
+  animation-delay: -0.15s;
+}
+
+.search-results {
+  padding-bottom: 100px;
+}
+/* width */
+.search-results::-webkit-scrollbar,
+.current-albums::-webkit-scrollbar {
+  width: 5px;
+}
+
+/* Track */
+.search-results::-webkit-scrollbar-track,
+.current-albums::-webkit-scrollbar-track {
+  background: transparent;
+}
+
+/* Handle */
+.search-results::-webkit-scrollbar-thumb {
+  background: #fff;
+  border-radius: 30px;
+  transition: 200ms;
+}
+.current-albums::-webkit-scrollbar-thumb {
+  background: var(--green) !important;
+  border-radius: 30px;
+  transition: 200ms;
+}
+
+/* Handle on hover */
+.search-results::-webkit-scrollbar-thumb:hover {
+  background: #eee;
+}
+.artist-grid {
+  padding: 10px;
+  border-radius: 28px;
+  transition: 200ms;
+}
+.artist-grid:hover,
+.artist-grid.active {
+  cursor: pointer;
+  background: rgb(0, 0, 0, 0.2);
+}
+.artist-image img {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.artist-info {
+  padding-left: 20px;
+}
+.artist-name {
+  color: white;
+  font-size: 20px;
+}
+.artist-followers {
+  color: #eee;
+}
+.search-wrapper .search-icon {
+  right: 15px;
+  top: 50%;
+  transform: translate(0, -50%);
+}
+.album-grid {
+  padding: 15px;
+  border-top-left-radius: 20px;
+  border-bottom-right-radius: 20px;
+  background-color: white;
+  margin-bottom: 40px;
+}
+.album-name {
+  font-weight: 700;
+  font-size: 18px;
+}
+.album-year {
+  width: 50px;
+  height: 50px;
+  background: var(--green);
+  position: absolute;
+  top: 0;
+  left: 0;
+  border-radius: 50%;
+  font-size: 18px;
+  font-weight: 700;
+  color: white;
+}
+.album-link {
+  opacity: 0;
+  position: absolute;
+  text-decoration: underline var(--green);
+  width: 100%;
+  height: 100%;
+  top: 0;
+  left: 0;
+  transition: 400ms;
+  z-index: 10;
+  border-top-left-radius: 20px;
+  padding-bottom: 10px;
+  border-bottom-right-radius: 20px;
+}
+
+.album-grid:hover .album-link {
+  opacity: 1;
+  background: rgb(0, 0, 0, 0.6);
+}
+@keyframes lds-ring {
+  0% {
     transform: rotate(0deg);
   }
-  to {
+
+  100% {
     transform: rotate(360deg);
   }
 }
