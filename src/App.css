@@ -1,13 +1,14 @@
+@import url('https://fonts.googleapis.com/css2?family=Oswald:wght@700&display=swap');
 :root {
-  --green: #1db954;
+  --green: #555;
   --dark: #000;
   --light-grey: #eee;
 }
 @media (min-width: 993px) {
-  .row {
+  /* .row:not(.nav) {
     overflow: hidden;
-  }
-  [class*="col-"] {
+  } */
+   .equal-height-col {
     margin-bottom: -99999px;
     padding-bottom: 99999px;
   }
@@ -80,6 +81,9 @@ body {
   border-radius: 20px;
   transition: 300ms !important;
 }
+.bg-black{
+  /* background:rgb(56, 6, 102) !important; */
+}
 .btn-aspect .fa {
   transition: 300ms;
 }
@@ -133,18 +137,23 @@ body {
 }
 
 .landing-page .header {
-  background-color: var(--green);
+  border-bottom:1px solid #eee;
+
+  background-color: #000;
   color: white;
 }
 .section-padding {
   padding: 70px 0 70px 0;
 }
 .login-form {
+  border-top-left-radius: 20px;
+  border-bottom-right-radius: 20px;
   position: relative;
-  border-radius: 10px;
+  box-shadow: 15px 15px 15px rgb(0,0,0,0.3 );
 }
 
 .account-settings-popup {
+  z-index:1000;
   transition: 700ms;
   max-height: 0;
   overflow: hidden;
@@ -243,7 +252,7 @@ body {
 .artist-grid:hover,
 .artist-grid.active {
   cursor: pointer;
-  background: rgb(0, 0, 0, 0.2);
+  background: rgba(85, 85, 85, 0.493);
 }
 .artist-image img {
   width: 90px;
@@ -304,10 +313,94 @@ body {
   border-bottom-right-radius: 20px;
 }
 
+.music-icon{
+  opacity:0.3;
+}
+.no-results h3, .artists-here h3{
+  font-family: "Oswald";
+  font-weight: 700;
+  text-transform: uppercase;
+  letter-spacing: 4px;
+  font-size:35px;
+}
+.music-icon .fa{
+  font-size:200px;
+}
+
 .album-grid:hover .album-link {
   opacity: 1;
   background: rgb(0, 0, 0, 0.6);
 }
+.overlay{
+  position:absolute;
+  top:0;
+  left:0;
+  width:100%;
+  height:100%;
+  background:rgb(255,255,255,0.4);
+  z-index:0;
+}
+.bg-image{
+  position:absolute;
+  width:100%;
+  height:100%;
+  top:0;
+  left:0;
+  object-fit: cover;
+  z-index:-1;
+  filter:blur(4px);
+}
+@media(min-width:993px){
+.sidebar{
+  max-width:50vw;
+  transition:500ms;
+  overflow-x:visible !important;
+}
+.sidebar.sidebar-hidden{
+  max-width:0;
+  padding:0 !important;
+  overflow:hidden;
+}
+.current-albums{
+  transition:500ms;
+}
+.current-albums.albums-fullscreen{
+  width:100%;
+}
+}
+.current-albums{
+  z-index:1000;
+}
+.sidebar-toggle{
+  width:50px;
+  height:50px;
+  border-radius: 50%;
+  justify-content:center;
+  padding-right:5px;
+  color:#000;
+  align-items:center;
+  top:50%;
+  left:33.33%;
+  transform:translate(-50%,50%);
+  background:#eee;
+  z-index:1000;
+  transition:500ms;
+  box-shadow: 10px 10px 10px rgb(0,0,0,0.1);
+}
+.albums-fullscreen .sidebar-toggle{
+  justify-content:flex-end;
+
+  left:0;
+  background:#000;
+  color:#eee;
+}
+.sidebar-toggle:hover{
+  cursor:pointer;
+}
+.right-0{
+  right: 0 !important;
+}
+
 @keyframes lds-ring {
   0% {
     transform: rotate(0deg);

@@ -15,7 +15,7 @@ export default function Home(props) {
   const [currentArtist, setCurrentArtist] = useState(null);
   const [currentArtistLoading, setCurrentArtistLoading] = useState(false);
   const [albums, setAlbums] = useState([]);
-  const [sidebarHidden, set] = useState(false);
+  const [sidebarHidden, setSidebarHidden] = useState(false);
   const searchArtists = (query) => {
     setArtistsLoading(true);
     if (query === "") {
@@ -26,7 +26,6 @@ export default function Home(props) {
     Requests.ArtistSearch(ctx.access_token, query).then((response) => {
       setArtistsLoading(false);
       if (response.artists === undefined) return;
-      console.log(response);
       setArtists(response.artists.items);
     });
   };
@@ -47,14 +46,21 @@ export default function Home(props) {
   return (
     <div className="h-100">
       <div className="container-fluid">
-        <div className="row main-container">
+        <div
+          className={`row main-container overflow-hidden position-fixed w-100 ${
+            sidebarHidden && "justify-content-start"
+          }`}
+        >
           <div
-            className={`col-lg-4 bg-green h-100 sidebar ${
+            className={`equal-height-col col-lg-4 bg-black h-100 sidebar position-relative ${
               sidebarHidden && "sidebar-hidden"
             }`}
           >
             <div className="search-wrapper position-relative">
               <input
+                autoCapitalize={false}
+                autoCorrect={false}
+                spellCheck={false}
                 type="text"
                 className="text-field search bg-transparent text-medium br-20"
                 placeholder="Search for an artist..."
@@ -74,7 +80,16 @@ export default function Home(props) {
                   <Loader white={true} />
                 </div>
               ) : artists.length === 0 && searchQuery.length > 0 ? (
-                "no results"
+                <div className="position-absolute w-100 h-100 d-flex justify-content-center align-items-center no-results">
+                  <div className="position-absolute music-icon">
+                    <i className="fa fa-user-times text-light"></i>
+                  </div>
+                  <div className="d-flex w-100 justify-content-lg-center text-light align-items-center">
+                    <h3 className="text-light text-center fs-1 w-100">
+                      No <br></br> Results
+                    </h3>
+                  </div>
+                </div>
               ) : artists.length > 0 ? (
                 <div>
                   <div className="w-100 text-center py-1 text-medium text-light">
@@ -94,20 +109,37 @@ export default function Home(props) {
                   ))}
                 </div>
               ) : (
-                <div className="position-absolute w-100 h-100 d-flex justify-content-center align-items-center">
-                  <div className="d-flex w-100 justify-content-lg-around text-light align-items-center">
-                    <h3 className="text-light">Artists Here</h3>
-                    asd
+                <div className="position-absolute w-100 h-100 d-flex justify-content-center align-items-center artists-here">
+                  <div className="position-absolute music-icon">
+                    <i className="fa fa-music text-light"></i>
+                  </div>
+                  <div className="d-flex w-100 justify-content-lg-center text-light align-items-center">
+                    <h3 className="text-light text-center fs-1 w-100">
+                      Artists <br></br> Here
+                    </h3>
                   </div>
                 </div>
               )}
             </div>
           </div>
           <div
-            className={`col-lg-8 bg-light-grey h-100 position-relative current-albums h-fill-available mh-100 overflow-auto position-relative ${
-              sidebarHidden && "albums-fullscreen"
+            className={`equal-height-col col-lg-8 bg-light-grey h-100 position-relative current-albums h-fill-available mh-100 overflow-auto position-absolute right-0 ${
+              sidebarHidden &&
+              "albums-fullscreen position-absolute w-100 top-0 right-0"
             }`}
           >
+            <div
+              className="position-fixed sidebar-toggle d-none d-lg-flex"
+              onClick={() => {
+                setSidebarHidden(!sidebarHidden);
+              }}
+            >
+              <i
+                className={`fa fs-5 ${
+                  sidebarHidden ? "fa-arrow-right" : "fa-arrow-left"
+                }`}
+              ></i>
+            </div>
             {currentArtistLoading ? (
               <div className="position-absolute w-100 h-100 d-flex align-items-center justify-content-center">
                 <Loader />

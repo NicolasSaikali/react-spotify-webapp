@@ -22,14 +22,16 @@ export default function ArtistGrid(props) {
       >
         <div className="d-flex justify-content-start px-2 align-items-center">
           <div className="artist-image">
-            <img
-              src={
-                props.artist.images.length > 1
-                  ? props.artist.images[0].url
-                  : props.artist.images.url
-              }
-              alt=""
-            />
+            {props.artist.images !== undefined && (
+              <img
+                src={
+                  props.artist.images.length > 1
+                    ? props.artist.images[0].url
+                    : props.artist.images.url
+                }
+                alt=""
+              />
+            )}
           </div>
           <div className="artist-info">
             <div className="d-flex flex-column justify-content-between">

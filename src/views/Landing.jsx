@@ -3,6 +3,7 @@ import { globalStateContext, dispatchStateContext } from "../Context";
 import Home from "./../Components/home";
 import Login from "../Components/Login";
 import Requests from "../requests";
+import { CONFIG } from "./../config";
 export default function Landing(props) {
   const [ctx, setctx] = [
     React.useContext(globalStateContext),
@@ -13,26 +14,47 @@ export default function Landing(props) {
     Requests.Authenticate();
   }, []);
 
+  const logout = () => {
+    window.location.href = CONFIG.APP_URL;
+    setctx({});
+    localStorage.removeItem("auth");
+  };
+
   const getTokens = () => {
-    let parameters = window.location.href.split("#")[1];
-    if (parameters === undefined) return;
-    if (parameters.length === 1) return; //it was not a redirection from
-    //I used this method below to be able to edit context values dynamically
     let previousContext = ctx;
-    parameters.split("&").forEach((p) => {
-      let key = p.split("=")[0],
-        value = p.split("=")[1];
-      previousContext[key] = value;
-    });
+    let tokenObject = {};
+    let cookieAuth =
+      localStorage.getItem("auth") !== null
+        ? JSON.parse(localStorage.getItem("auth"))
+        : null;
+    let parameters = window.location.href.split("#")[1];
+    if (cookieAuth !== null) {
+      console.log(cookieAuth);
+      for (let i in cookieAuth) {
+        previousContext[i] = cookieAuth[i];
+      }
+    } else {
+      if (parameters === undefined) return;
+      if (parameters.length === 1) return; //it was not a redirection from
+      //I used this method below to be able to edit context values dynamically
+      cookieAuth = {};
+
+      parameters.split("&").forEach((p) => {
+        let key = p.split("=")[0],
+          value = p.split("=")[1];
+        cookieAuth[key] = value;
+        previousContext[key] = value;
+      });
+    }
+    localStorage.setItem("auth", JSON.stringify(cookieAuth));
     setctx(previousContext);
-    console.log(ctx);
   };
 
   return (
     <div className="landing-page">
       <div className="header py-3">
-        <div className="container">
-          <div className="row justify-content-between">
+        <div className="container-fluid">
+          <div className="row nav justify-content-between">
             <div className="col-6">
               <div className="logo">
                 <img src={`${process.env.PUBLIC_URL}/assets/logo.png`} alt="" />
@@ -43,10 +65,15 @@ export default function Landing(props) {
                 <div>
                   {ctx.access_token !== undefined ? (
                     <div className="account-settings-wrapper position-relative">
-                      <i className="fa fa-user hover-pointer"></i>
+                      <i className="fa fa-user hover-pointer fs-3"></i>
                       <div className="account-settings-popup px-3">
                         <div className="py-2 px-3">
-                          <button className="btn-aspect btn-2">
+                          <button
+                            className="btn-aspect btn-2"
+                            onClick={() => {
+                              logout();
+                            }}
+                          >
                             <div className="d-flex justify-content-around align-items-center border-1">
                               Logout
                               <div className="h-100 px-2"></div>

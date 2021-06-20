@@ -3,7 +3,13 @@ import Requests from "../requests";
 
 export default function Login(props) {
   return (
-    <div className="section-padding">
+    <div className="section-padding position-relative">
+      <div className="overlay"></div>
+      <img
+        src={`${process.env.PUBLIC_URL}/assets/wallpaper.jpg`}
+        alt=""
+        className="bg-image"
+      />
       <div className="container">
         <div className="row justify-content-center">
           <div className="col-lg-4 col-md-6 col-12">
