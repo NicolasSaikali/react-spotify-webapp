@@ -123,7 +123,7 @@ export default function Home(props) {
             </div>
           </div>
           <div
-            className={`equal-height-col col-lg-8 bg-light-grey h-100 position-relative current-albums h-fill-available mh-100 overflow-auto position-absolute right-0 ${
+            className={`equal-height-col col-lg-8 bg-light-grey h-100 position-relative position-lg-absolute current-albums h-fill-available mh-100 overflow-auto  right-0 ${
               sidebarHidden &&
               "albums-fullscreen position-absolute w-100 top-0 right-0"
             }`}
