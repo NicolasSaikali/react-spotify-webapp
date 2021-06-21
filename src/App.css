@@ -389,13 +389,15 @@ body {
 }
 .albums-fullscreen .sidebar-toggle{
   justify-content:flex-end;
-
   left:0;
   background:#000;
   color:#eee;
 }
 .sidebar-toggle:hover{
   cursor:pointer;
+}
+.top-0 {
+  top : 0 !important;
 }
 .right-0{
   right: 0 !important;
