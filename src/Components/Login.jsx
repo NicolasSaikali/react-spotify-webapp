@@ -3,7 +3,7 @@ import Requests from "../requests";
 
 export default function Login(props) {
   return (
-    <div className="section-padding position-relative">
+    <div className="section-padding login-view">
       <div className="overlay"></div>
       <img
         src={`${process.env.PUBLIC_URL}/assets/wallpaper.jpg`}

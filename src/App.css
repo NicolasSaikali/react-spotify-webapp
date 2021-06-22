@@ -12,6 +12,9 @@
     margin-bottom: -99999px;
     padding-bottom: 99999px;
   }
+  .overflow-lg-hidden{
+    overflow:hidden !important;
+  }
 }
 html,
 body {
@@ -137,8 +140,9 @@ body {
 }
 
 .landing-page .header {
+  position: relative;
+  z-index:1000;
   border-bottom:1px solid #eee;
-
   background-color: #000;
   color: white;
 }
@@ -402,7 +406,22 @@ body {
 .right-0{
   right: 0 !important;
 }
-
+.login-view{
+position:absolute;
+width:100%;
+top:0;
+left:0;
+height:100vh;
+display:flex;
+flex-direction: column;
+justify-content: center;
+}
+@media(max-width:993px){
+  .sidebar,
+  .current-albums {
+    height:100vh;
+  }
+}
 @keyframes lds-ring {
   0% {
     transform: rotate(0deg);
@@ -411,4 +430,23 @@ body {
   100% {
     transform: rotate(360deg);
   }
+}
+
+.goto-section{
+  position:absolute;
+  right:5%;
+  padding:10px 15px;
+  border-radius:20px;
+  z-index:100;
+  opacity:0.7;
+}
+.goto-section:hover{
+  opacity:1;
+  cursor:pointer;
+}
+.goto-section.albums{
+  bottom:5%;
+}
+.goto-section.artists{
+  top:5%;
 }

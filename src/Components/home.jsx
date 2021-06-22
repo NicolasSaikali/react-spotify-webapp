@@ -16,28 +16,45 @@ export default function Home(props) {
   const [currentArtistLoading, setCurrentArtistLoading] = useState(false);
   const [albums, setAlbums] = useState([]);
   const [sidebarHidden, setSidebarHidden] = useState(false);
-  const searchArtists = (query) => {
-    setArtistsLoading(true);
-    if (query === "") {
-      setArtists([]);
-      setArtistsLoading(false);
+  const [search, setSearch] = useState(false);
+  const searchArtists = () => {
+    if (searchQuery === "" || !search) {
       return;
     }
-    Requests.ArtistSearch(ctx.access_token, query).then((response) => {
+    setArtistsLoading(true);
+    Requests.ArtistSearch(ctx.access_token, searchQuery).then((response) => {
       setArtistsLoading(false);
-      if (response.artists === undefined) return;
-      setArtists(response.artists.items);
+      if (!response || !response.artists) return;
+      console.log("RESPNSE");
+      setArtists(response.artists?.items);
     });
   };
+  useEffect(() => {
+    setSearch(false);
+    setTimeout(() => {
+      setSearch(true);
+      searchArtists();
+    }, 1000);
+  }, [searchQuery]);
   const getAlbums = () => {
     setCurrentArtistLoading(true);
     Requests.ArtistAlbums(ctx.access_token, currentArtist.id).then(
       (response) => {
+        console.log("RESPONSE!");
         setCurrentArtistLoading(false);
+        if (!response || !response.items) return;
         setAlbums(response.items);
         console.log(albums);
       }
     );
+  };
+  const scrollTo = (id) => {
+    document.querySelector(".main-container").scrollTo({
+      top:
+        document.getElementById(id).getBoundingClientRect().y +
+        window.pageYOffset,
+      behavior: "smooth",
+    });
   };
   useEffect(() => {
     if (currentArtist === null) return;
@@ -47,15 +64,20 @@ export default function Home(props) {
     <div className="h-100">
       <div className="container-fluid">
         <div
-          className={`row main-container overflow-hidden position-fixed w-100 ${
-            sidebarHidden && "justify-content-start"
-          }`}
+          className={`row main-container overflow-scroll overflow-lg-hidden position-fixed w-100 `}
         >
           <div
-            className={`equal-height-col col-lg-4 bg-black h-100 sidebar position-relative ${
-              sidebarHidden && "sidebar-hidden"
-            }`}
+            id="artists"
+            className={`equal-height-col col-lg-4 bg-black h-100 sidebar position-relative`}
           >
+            <button
+              onClick={() => {
+                scrollTo("albums");
+              }}
+              className="d-block btn-default  border-0 d-lg-none goto-section albums bg-light text-dark"
+            >
+              Albums <div className="fa fa-arrow-down"></div>
+            </button>
             <div className="search-wrapper position-relative">
               <input
                 autoCapitalize={false}
@@ -66,7 +88,6 @@ export default function Home(props) {
                 placeholder="Search for an artist..."
                 onChange={(e) => {
                   setSearchQuery(e.target.value);
-                  searchArtists(e.target.value);
                 }}
               />
               <div className="position-absolute search-icon">
@@ -123,22 +144,17 @@ export default function Home(props) {
             </div>
           </div>
           <div
-            className={`equal-height-col col-lg-8 bg-light-grey h-100 position-relative position-lg-absolute current-albums h-fill-available mh-100 overflow-auto right-0 ${
-              sidebarHidden && "albums-fullscreen position-absolute w-100 top-0"
-            }`}
+            id="albums"
+            className={`equal-height-col col-lg-8 bg-light-grey h-100 position-relative position-lg-absolute current-albums h-fill-available mh-100 overflow-auto right-0 `}
           >
-            {/* <div
-              className="position-fixed sidebar-toggle d-none d-lg-flex"
+            <button
               onClick={() => {
-                setSidebarHidden(!sidebarHidden);
+                scrollTo("artists");
               }}
+              className="d-block btn-default  border-0 d-lg-none goto-section artists bg-black text-light"
             >
-              <i
-                className={`fa fs-5 ${
-                  sidebarHidden ? "fa-arrow-right" : "fa-arrow-left"
-                }`}
-              ></i>
-            </div> */}
+              Artists <div className="fa fa-arrow-up"></div>
+            </button>
             {currentArtistLoading ? (
               <div className="position-absolute w-100 h-100 d-flex align-items-center justify-content-center">
                 <Loader />
@@ -148,9 +164,17 @@ export default function Home(props) {
             ) : (
               <div className="section-padding px-2">
                 <div className="row justify-content-center">
-                  {albums.map((album, i) => (
-                    <AlbumGrid album={album} key={`albums_${i}`} />
-                  ))}
+                  {albums.length === 0 ? (
+                    <div className="position-absolute w-100 h-100 d-flex justify-content-center align-items-center">
+                      <div className="text-dark fs-3 text-bold bold text-uppercase oswald">
+                        no albums found
+                      </div>
+                    </div>
+                  ) : (
+                    albums.map((album, i) => (
+                      <AlbumGrid album={album} key={`albums_${i}`} />
+                    ))
+                  )}
                 </div>
               </div>
             )}

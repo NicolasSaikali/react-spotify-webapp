@@ -92,8 +92,8 @@ export default function Landing(props) {
           </div>
         </div>
       </div>
-      <div className="h-fill-available">
-        <div className="">
+      <div className="">
+        <div className="box">
           {ctx.access_token !== undefined ? <Home /> : <Login />}
         </div>
       </div>
