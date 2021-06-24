@@ -28,6 +28,22 @@ export default class Requests {
       });
     return response;
   }
+  static async NextPage(token, url) {
+    const response = fetch(url, {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: `Bearer ${token}`,
+      },
+    })
+      .then((response) => response.json())
+      .then((data) => {
+        return data;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    return response;
+  }
   static async ArtistAlbums(token, artistID) {
     const response = fetch(
       `${CONFIG.API_ENDPOINTS.ARTISTS}/${artistID}/albums`,

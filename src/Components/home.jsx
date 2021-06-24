@@ -9,14 +9,18 @@ export default function Home(props) {
     React.useContext(globalStateContext),
     React.useContext(dispatchStateContext),
   ];
+
+  const [timeOut, setTimeOut] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [artists, setArtists] = useState([]);
   const [artistsLoading, setArtistsLoading] = useState(false);
   const [currentArtist, setCurrentArtist] = useState(null);
   const [currentArtistLoading, setCurrentArtistLoading] = useState(false);
   const [albums, setAlbums] = useState([]);
-  const [sidebarHidden, setSidebarHidden] = useState(false);
+  const [nextArtists, setNextArtists] = useState(null);
+  const [nextAlbums, setNextAlbums] = useState(null);
   const [search, setSearch] = useState(false);
+
   const searchArtists = () => {
     if (searchQuery === "" || !search) {
       return;
@@ -25,7 +29,8 @@ export default function Home(props) {
     Requests.ArtistSearch(ctx.access_token, searchQuery).then((response) => {
       setArtistsLoading(false);
       if (!response || !response.artists) return;
-      console.log("RESPNSE");
+      setNextArtists(response.artists.next);
+      console.log(response);
       setArtists(response.artists?.items);
     });
   };
@@ -43,8 +48,8 @@ export default function Home(props) {
         console.log("RESPONSE!");
         setCurrentArtistLoading(false);
         if (!response || !response.items) return;
+        setNextAlbums(response.next);
         setAlbums(response.items);
-        console.log(albums);
       }
     );
   };
@@ -60,6 +65,23 @@ export default function Home(props) {
     if (currentArtist === null) return;
     getAlbums();
   }, [currentArtist]);
+
+  const getNextArtists = () => {
+    Requests.NextPage(ctx.access_token, nextArtists).then((response) => {
+      setNextAlbums(response.items);
+      let tmp = albums.concat(response.items);
+      setAlbums(tmp);
+    });
+  };
+
+  const getNextAlbums = () => {
+    Requests.NextPage(ctx.access_token, nextAlbums).then((response) => {
+      setNextAlbums(response.next);
+      let tmp = albums.concat(response.items);
+      setAlbums(tmp);
+    });
+  };
+
   return (
     <div className="h-100">
       <div className="container-fluid">
@@ -80,8 +102,6 @@ export default function Home(props) {
             </button>
             <div className="search-wrapper position-relative">
               <input
-                autoCapitalize={false}
-                autoCorrect={false}
                 spellCheck={false}
                 type="text"
                 className="text-field search bg-transparent text-medium br-20"
@@ -128,6 +148,18 @@ export default function Home(props) {
                       setActive={setCurrentArtist}
                     />
                   ))}
+                  {nextArtists !== null ? (
+                    <button
+                      className="loadmore-artists btn-aspect text-uppercase"
+                      onClick={() => {
+                        getNextArtists();
+                      }}
+                    >
+                      Load more
+                    </button>
+                  ) : (
+                    <h4 className="text-light">No more artists found</h4>
+                  )}
                 </div>
               ) : (
                 <div className="position-absolute w-100 h-100 d-flex justify-content-center align-items-center artists-here">
@@ -145,7 +177,7 @@ export default function Home(props) {
           </div>
           <div
             id="albums"
-            className={`equal-height-col col-lg-8 bg-light-grey h-100 position-relative position-lg-absolute current-albums h-fill-available mh-100 overflow-auto right-0 `}
+            className={`equal-height-col col-lg-8 bg-light-grey  position-relative position-lg-absolute current-albums  mh-100  overflow-auto right-0 `}
           >
             <button
               onClick={() => {
@@ -171,10 +203,28 @@ export default function Home(props) {
                       </div>
                     </div>
                   ) : (
-                    albums.map((album, i) => (
-                      <AlbumGrid album={album} key={`albums_${i}`} />
-                    ))
+                    <React.Fragment>
+                      {albums.map((album, i) => (
+                        <AlbumGrid album={album} key={`albums_${i}`} />
+                      ))}
+                    </React.Fragment>
                   )}
+                </div>
+                <div className="row justify-content-center">
+                  <div className="col-md-4">
+                    {nextAlbums !== null ? (
+                      <button
+                        className="btn-aspect text-light w-100 btn-3"
+                        onClick={() => {
+                          getNextAlbums();
+                        }}
+                      >
+                        <div class="text-uppercase">Load more</div>
+                      </button>
+                    ) : (
+                      <h4 className="text-dark">No More Albums found</h4>
+                    )}
+                  </div>
                 </div>
               </div>
             )}

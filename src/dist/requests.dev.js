@@ -60,14 +60,14 @@ function () {
       });
     }
   }, {
-    key: "ArtistAlbums",
-    value: function ArtistAlbums(token, artistID) {
+    key: "NextPage",
+    value: function NextPage(token, url) {
       var response;
-      return regeneratorRuntime.async(function ArtistAlbums$(_context2) {
+      return regeneratorRuntime.async(function NextPage$(_context2) {
         while (1) {
           switch (_context2.prev = _context2.next) {
             case 0:
-              response = fetch("".concat(_config.CONFIG.API_ENDPOINTS.ARTISTS, "/").concat(artistID, "/albums"), {
+              response = fetch(url, {
                 headers: {
                   "Content-Type": "application/json",
                   Authorization: "Bearer ".concat(token)
@@ -84,6 +84,35 @@ function () {
             case 2:
             case "end":
               return _context2.stop();
+          }
+        }
+      });
+    }
+  }, {
+    key: "ArtistAlbums",
+    value: function ArtistAlbums(token, artistID) {
+      var response;
+      return regeneratorRuntime.async(function ArtistAlbums$(_context3) {
+        while (1) {
+          switch (_context3.prev = _context3.next) {
+            case 0:
+              response = fetch("".concat(_config.CONFIG.API_ENDPOINTS.ARTISTS, "/").concat(artistID, "/albums"), {
+                headers: {
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer ".concat(token)
+                }
+              }).then(function (response) {
+                return response.json();
+              }).then(function (data) {
+                return data;
+              })["catch"](function (error) {
+                console.log(error);
+              });
+              return _context3.abrupt("return", response);
+
+            case 2:
+            case "end":
+              return _context3.stop();
           }
         }
       });

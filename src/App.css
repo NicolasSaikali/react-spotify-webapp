@@ -102,7 +102,7 @@ body {
 }
 .btn-1:hover {
   background: white;
-  color: var(--green);
+  color: var(--green) !important;
 }
 .btn-2:hover {
   background: var(--green);
@@ -110,6 +110,30 @@ body {
 }
 .btn-1:hover .fa {
   color: var(--green) !important;
+}
+
+.btn-3{
+  background:var(--green);
+  position:relative;
+  overflow: hidden;
+}
+.btn-3 div{
+  position: relative;
+  z-index:10;
+}
+.btn-3::after{
+  position:absolute;
+  top:0;
+  left:0;
+  height:100%;
+  width:0;
+  background:var(--dark);
+  content:"";
+  border-radius: inherit;
+  transition:width 100ms;
+}
+.btn-3:hover::after{
+  width:100%;
 }
 
 .btn-2:hover .fa {
