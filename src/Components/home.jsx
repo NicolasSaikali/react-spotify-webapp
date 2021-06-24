@@ -1,15 +1,18 @@
 import React, { useEffect, useState } from "react";
 import { globalStateContext, dispatchStateContext } from "../Context";
+import { CONFIG } from "./../config";
 import Requests from "../requests";
 import Loader from "./Loader";
 import ArtistGrid from "./artists/grid";
 import AlbumGrid from "./albums/gris";
+import ExpireComponent from "./expire_component";
 export default function Home(props) {
   const [ctx, setctx] = [
     React.useContext(globalStateContext),
     React.useContext(dispatchStateContext),
   ];
 
+  const [expired, setExpired] = useState(false);
   const [timeOut, setTimeOut] = useState(null);
   const [searchQuery, setSearchQuery] = useState("");
   const [artists, setArtists] = useState([]);
@@ -20,6 +23,12 @@ export default function Home(props) {
   const [nextArtists, setNextArtists] = useState(null);
   const [nextAlbums, setNextAlbums] = useState(null);
   const [search, setSearch] = useState(false);
+
+  const logout = () => {
+    window.location.href = CONFIG.APP_URL;
+    setctx({});
+    localStorage.removeItem("auth");
+  };
 
   const searchArtists = () => {
     if (searchQuery === "" || !search) {
@@ -34,6 +43,22 @@ export default function Home(props) {
       setArtists(response.artists?.items);
     });
   };
+
+  useEffect(() => {
+    let data = JSON.parse(localStorage.getItem("auth"));
+    console.log(data);
+    let deltaTime = JSON.parse(localStorage.getItem("auth")).expires_in;
+    let previousDate = data.previous_date;
+    previousDate = Math.round(new Date().getTime() / 1000);
+
+    if (previousDate > deltaTime) {
+      setExpired(true);
+    }
+
+    data["previous_date"] = previousDate;
+    localStorage.setItem("auth", JSON.stringify(data));
+  });
+
   useEffect(() => {
     setSearch(false);
     setTimeout(() => {
@@ -231,6 +256,7 @@ export default function Home(props) {
           </div>
         </div>
       </div>
+      <ExpireComponent expired={expired} callBack={logout} />
     </div>
   );
 }

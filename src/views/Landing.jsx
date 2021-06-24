@@ -9,9 +9,10 @@ export default function Landing(props) {
     React.useContext(globalStateContext),
     React.useContext(dispatchStateContext),
   ];
+
   useEffect(() => {
+    console.log(localStorage.getItem("auth"));
     getTokens();
-    Requests.Authenticate();
   }, []);
 
   const logout = () => {
@@ -29,7 +30,6 @@ export default function Landing(props) {
         : null;
     let parameters = window.location.href.split("#")[1];
     if (cookieAuth !== null) {
-      console.log(cookieAuth);
       for (let i in cookieAuth) {
         previousContext[i] = cookieAuth[i];
       }
@@ -45,6 +45,9 @@ export default function Landing(props) {
         cookieAuth[key] = value;
         previousContext[key] = value;
       });
+      // cookieAuth["expires_in"] = "10";
+      cookieAuth["expires_in"] -= -Math.round(new Date().getTime() / 1000);
+      previousContext["expires_in"] = parseInt(cookieAuth["expires_in"]);
     }
     localStorage.setItem("auth", JSON.stringify(cookieAuth));
     setctx(previousContext);

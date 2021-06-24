@@ -474,3 +474,17 @@ justify-content: center;
 .goto-section.artists{
   top:5%;
 }
+.expired-popup{
+  position: fixed;
+  bottom:-100%;
+  right:50px;
+  margin-left:50px;
+  background:var(--green);
+  padding:10px;
+  border-radius:10px;
+  box-shadow: 4px 4px 5px rgb(0,0,0,0.2);
+  transition:bottom 400ms;
+}
+.expired-popup.shown{
+  bottom:50px;
+}
