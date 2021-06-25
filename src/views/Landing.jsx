@@ -53,7 +53,6 @@ export default function Landing(props) {
         cookieAuth[key] = value;
         previousContext[key] = value;
       });
-      cookieAuth["expires_in"] = "10";
       cookieAuth["expires_in"] -= -Math.round(new Date().getTime() / 1000);
       previousContext["expires_in"] = parseInt(cookieAuth["expires_in"]);
     }
