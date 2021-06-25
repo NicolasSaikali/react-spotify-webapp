@@ -4,7 +4,7 @@ import { CONFIG } from "./../config";
 import Requests from "../requests";
 import Loader from "./Loader";
 import ArtistGrid from "./artists/grid";
-import AlbumGrid from "./albums/gris";
+import AlbumGrid from "./albums/grid";
 import ExpireComponent from "./expire_component";
 export default function Home(props) {
   const [ctx, setctx] = [
@@ -26,8 +26,8 @@ export default function Home(props) {
 
   const logout = () => {
     window.location.href = CONFIG.APP_URL;
-    setctx({});
     localStorage.removeItem("auth");
+    setctx({});
   };
 
   const searchArtists = () => {
@@ -39,14 +39,12 @@ export default function Home(props) {
       setArtistsLoading(false);
       if (!response || !response.artists) return;
       setNextArtists(response.artists.next);
-      console.log(response);
       setArtists(response.artists?.items);
     });
   };
 
   useEffect(() => {
     let data = JSON.parse(localStorage.getItem("auth"));
-    console.log(data);
     let deltaTime = JSON.parse(localStorage.getItem("auth")).expires_in;
     let previousDate = data.previous_date;
     previousDate = Math.round(new Date().getTime() / 1000);
@@ -70,7 +68,6 @@ export default function Home(props) {
     setCurrentArtistLoading(true);
     Requests.ArtistAlbums(ctx.access_token, currentArtist.id).then(
       (response) => {
-        console.log("RESPONSE!");
         setCurrentArtistLoading(false);
         if (!response || !response.items) return;
         setNextAlbums(response.next);
@@ -93,9 +90,9 @@ export default function Home(props) {
 
   const getNextArtists = () => {
     Requests.NextPage(ctx.access_token, nextArtists).then((response) => {
-      setNextAlbums(response.items);
-      let tmp = albums.concat(response.items);
-      setAlbums(tmp);
+      setNextArtists(response.artists.next);
+      let tmp = artists.concat(response.artists.items);
+      setArtists(tmp);
     });
   };
 
@@ -244,7 +241,7 @@ export default function Home(props) {
                           getNextAlbums();
                         }}
                       >
-                        <div class="text-uppercase">Load more</div>
+                        <div className="text-uppercase">Load more</div>
                       </button>
                     ) : (
                       <h4 className="text-dark">No More Albums found</h4>

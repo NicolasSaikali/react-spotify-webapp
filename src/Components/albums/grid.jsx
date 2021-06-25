@@ -32,7 +32,10 @@ export default function AlbumGrid(props) {
             Artists :
             <div className="d-inline-block">
               {props.album.artists.map((artist, i) => (
-                <div className="text-secondary d-inline-block">
+                <div
+                  className="text-secondary d-inline-block"
+                  key={`artists_albums_${i}`}
+                >
                   {artist.name} &nbsp;
                 </div>
               ))}

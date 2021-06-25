@@ -7,7 +7,8 @@ export default class Requests {
             ${CONFIG.DEV_AUTH.CLIENT_ID}`).then((response) => {});
   }
   static AuthenticateUser() {
-    window.location.href = `https://accounts.spotify.com/authorize?client_id=${CONFIG.DEV_AUTH.CLIENT_ID}&redirect_uri=http://localhost:3001&response_type=token`;
+    localStorage.removeItem("auth");
+    window.location.href = `https://accounts.spotify.com/authorize?client_id=${CONFIG.DEV_AUTH.CLIENT_ID}&redirect_uri=${CONFIG.APP_URL}&response_type=token`;
   }
   static async ArtistSearch(token, query) {
     const response = fetch(

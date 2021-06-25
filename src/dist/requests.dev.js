@@ -28,7 +28,8 @@ function () {
   }, {
     key: "AuthenticateUser",
     value: function AuthenticateUser() {
-      window.location.href = "https://accounts.spotify.com/authorize?client_id=".concat(_config.CONFIG.DEV_AUTH.CLIENT_ID, "&redirect_uri=http://localhost:3001&response_type=token");
+      localStorage.removeItem("auth");
+      window.location.href = "https://accounts.spotify.com/authorize?client_id=".concat(_config.CONFIG.DEV_AUTH.CLIENT_ID, "&redirect_uri=").concat(_config.CONFIG.APP_URL, "&response_type=token");
     }
   }, {
     key: "ArtistSearch",

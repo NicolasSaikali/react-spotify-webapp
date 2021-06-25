@@ -11,14 +11,13 @@ export default function Landing(props) {
   ];
 
   useEffect(() => {
-    console.log(localStorage.getItem("auth"));
     getTokens();
   }, []);
 
   const logout = () => {
     window.location.href = CONFIG.APP_URL;
-    setctx({});
     localStorage.removeItem("auth");
+    setctx({});
   };
 
   const getTokens = () => {
@@ -29,11 +28,20 @@ export default function Landing(props) {
         ? JSON.parse(localStorage.getItem("auth"))
         : null;
     let parameters = window.location.href.split("#")[1];
+    if (
+      cookieAuth !== null &&
+      cookieAuth.previous_date > cookieAuth.expires_in
+    ) {
+      console.log(cookieAuth);
+      console.log("test");
+      return;
+    }
     if (cookieAuth !== null) {
       for (let i in cookieAuth) {
         previousContext[i] = cookieAuth[i];
       }
     } else {
+      localStorage.removeItem("auth");
       if (parameters === undefined) return;
       if (parameters.length === 1) return; //it was not a redirection from
       //I used this method below to be able to edit context values dynamically
@@ -45,7 +53,7 @@ export default function Landing(props) {
         cookieAuth[key] = value;
         previousContext[key] = value;
       });
-      // cookieAuth["expires_in"] = "10";
+      cookieAuth["expires_in"] = "10";
       cookieAuth["expires_in"] -= -Math.round(new Date().getTime() / 1000);
       previousContext["expires_in"] = parseInt(cookieAuth["expires_in"]);
     }

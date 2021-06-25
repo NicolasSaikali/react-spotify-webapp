@@ -1,5 +1,5 @@
 export const CONFIG = {
-  APP_URL: "http://localhost:3001",
+  APP_URL: "http://localhost:3000",
   DEV_AUTH: {
     CLIENT_ID: "7947cb158a2d42e297457da92df731fc",
     CLIENT_SECRET: "534b6400831a47a3a107eb98b33ca918",
