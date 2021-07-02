@@ -17,23 +17,15 @@ export default function Login(props) {
               <label className="label text-dark mb-3 pt-3 d-block fs-3 text-medium text-center">
                 Login
               </label>
-              <input type="email" placeholder="Email" className="text-field" />
-              <input
-                type="password"
-                placeholder="Password"
-                className="text-field"
-              />
-              <button className="btn-aspect btn-1 mb-2">Login</button>
-              <hr />
               <button
-                className="btn-aspect btn-2 mt-2 position-relative"
+                className="btn-aspect btn-3 mt-2 position-relative"
                 onClick={() => {
                   Requests.AuthenticateUser();
                 }}
               >
-                <div className="d-flex justify-content-around align-items-center">
+                <div className="d-flex text-light justify-content-around align-items-center">
                   Login with Spotify
-                  <i className="fa fa-spotify text-green fs-2"></i>
+                  <i className="fa fa-spotify text-light fs-2"></i>
                 </div>
               </button>
             </div>

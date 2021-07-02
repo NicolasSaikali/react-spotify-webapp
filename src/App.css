@@ -135,6 +135,9 @@ body {
 .btn-3:hover::after{
   width:100%;
 }
+.btn-3:hover *{
+  color:white;
+}
 
 .btn-2:hover .fa {
   color: white !important;
@@ -251,9 +254,11 @@ body {
 }
 
 /* Track */
-.search-results::-webkit-scrollbar-track,
-.current-albums::-webkit-scrollbar-track {
+.search-results::-webkit-scrollbar-track {
   background: transparent;
+}
+.current-albums::-webkit-scrollbar-track{
+  background:black;
 }
 
 /* Handle */
@@ -263,7 +268,7 @@ body {
   transition: 200ms;
 }
 .current-albums::-webkit-scrollbar-thumb {
-  background: var(--green) !important;
+  background:white;
   border-radius: 30px;
   transition: 200ms;
 }
@@ -472,7 +477,7 @@ justify-content: center;
   bottom:5%;
 }
 .goto-section.artists{
-  top:5%;
+  top:10%;
 }
 .expired-popup{
   position: fixed;
@@ -501,9 +506,9 @@ justify-content: center;
   }
 }
 .error-prompt{
-  width:200px;
+  width:250px;
   border:2px solid white;
-  padding-top:200px;
+  padding-top:250px;
   border-radius:50%;
 }
 .error-prompt.light *{
@@ -511,4 +516,24 @@ justify-content: center;
 }
 .error-prompt.dark{
   border-color: #333;
+}
+.al-artist-info {
+  transition:500ms;
+  padding:15px 0;
+  position:sticky;
+  left:0;
+  right:0;
+  top:-20px;
+  z-index:1000;
+  margin-left:-10px;
+  margin-right:-10px;
+}
+.al-artist-info.active{
+  background:var(--dark);
+}
+.al-artist-info.active *:not(button){
+  color:white !important;
+}
+.al-artist-info.active button{
+  background:#eee !important;
 }

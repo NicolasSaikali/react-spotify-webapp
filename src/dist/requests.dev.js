@@ -41,8 +41,8 @@ function () {
             case 0:
               response = fetch("".concat(_config.CONFIG.API_ENDPOINTS.SEARCH, "?type=artist&q=").concat(query), {
                 headers: {
-                  "Content-Type": "application/json" // Authorization: `Bearer ${token}`,
-
+                  "Content-Type": "application/json",
+                  Authorization: "Bearer ".concat(token)
                 }
               }).then(function (response) {
                 return response.json();

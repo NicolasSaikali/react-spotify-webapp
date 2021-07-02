@@ -28,6 +28,19 @@ export default function AlbumsComponent(props) {
     getAlbums();
   }, [ctx.currentArtist]);
 
+  useEffect(() => {
+    let albums = document.querySelector("#albums");
+    albums.addEventListener("scroll", (e) => {
+      let info = document.querySelector(".al-artist-info");
+      if (info === null) return;
+      if (info.getBoundingClientRect().y <= albums.scrollTop) {
+        info.classList.add("active");
+      } else {
+        info.classList.remove("active");
+      }
+    });
+  }, []);
+
   const getAlbums = () => {
     let tmp;
     if (ctx.currentArtist === null) return;
@@ -54,14 +67,6 @@ export default function AlbumsComponent(props) {
       id="albums"
       className={`equal-height-col col-lg-8 bg-light-grey  position-relative position-lg-absolute current-albums  mh-100  overflow-auto right-0 `}
     >
-      <button
-        onClick={() => {
-          scrollTo("artists");
-        }}
-        className="d-block btn-default  border-0 d-lg-none goto-section artists bg-black text-light"
-      >
-        Artists <div className="fa fa-arrow-up"></div>
-      </button>
       {currentArtistLoading ? (
         <div className="position-absolute w-100 h-100 d-flex align-items-center justify-content-center">
           <Loader />
@@ -72,15 +77,26 @@ export default function AlbumsComponent(props) {
         <div></div>
       ) : (
         <React.Fragment>
-          <div className="px-2">
-            <div className="d-flex position-sticky justify-content-between">
+          <div className="px-2 al-artist-info">
+            <div className=" d-flex justify-content-between align-items-center">
               <h1 className="bold text-bold d-inline-block">
                 {ctx.currentArtist.name}
               </h1>
               <div className="px-2"></div>
-              <button className="text-uppercase bold button btn-2 py-1 w-auto btn-aspect d-inline-block ml-2">
-                Follow
-              </button>
+              <div className="d-flex flex-column justify-content-center align-items-center">
+                <button className="text-uppercase bold button btn-2 py-1 w-auto btn-aspect d-inline-block ml-2">
+                  Follow
+                </button>
+                <div className="py-1"></div>
+                <button
+                  onClick={() => {
+                    scrollTo("artists");
+                  }}
+                  className="d-block btn-default goto-section position-relative right-0 border-0 d-lg-none artists bg-black text-light"
+                >
+                  Artists <div className="fa fa-arrow-up"></div>
+                </button>
+              </div>
             </div>
           </div>
           <div className="section-padding px-2">
