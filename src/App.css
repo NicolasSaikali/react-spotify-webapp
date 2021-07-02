@@ -488,3 +488,27 @@ justify-content: center;
 .expired-popup.shown{
   bottom:50px;
 }
+@media (max-width:1100px){
+  .star-container svg{
+    width:20px !important;
+    height:20px !important;
+  }
+}
+@media(max-width:767px){
+  .star-container svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
+}
+.error-prompt{
+  width:200px;
+  border:2px solid white;
+  padding-top:200px;
+  border-radius:50%;
+}
+.error-prompt.light *{
+  color:white;
+}
+.error-prompt.dark{
+  border-color: #333;
+}

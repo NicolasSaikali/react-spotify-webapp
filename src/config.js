@@ -9,9 +9,6 @@ export const CONFIG = {
   USER_AUTH: {
     ENDPOINT: "https://accounts.spotify.com/authorize",
   },
-  USER: {
-    SCOPES: ["user-read-currently-playing", "user-read-playback-state"],
-  },
   API_ENDPOINTS: {
     SEARCH: "https://api.spotify.com/v1/search",
     ARTISTS: "https://api.spotify.com/v1/artists",

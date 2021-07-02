@@ -39,10 +39,10 @@ function () {
         while (1) {
           switch (_context.prev = _context.next) {
             case 0:
-              response = fetch("".concat(_config.CONFIG.API_ENDPOINTS.SEARCH, "?type=artist&q=").concat(query, "&token=").concat(token, "&"), {
+              response = fetch("".concat(_config.CONFIG.API_ENDPOINTS.SEARCH, "?type=artist&q=").concat(query), {
                 headers: {
-                  "Content-Type": "application/json",
-                  Authorization: "Bearer ".concat(token)
+                  "Content-Type": "application/json" // Authorization: `Bearer ${token}`,
+
                 }
               }).then(function (response) {
                 return response.json();

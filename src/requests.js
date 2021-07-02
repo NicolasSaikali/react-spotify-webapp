@@ -12,11 +12,11 @@ export default class Requests {
   }
   static async ArtistSearch(token, query) {
     const response = fetch(
-      `${CONFIG.API_ENDPOINTS.SEARCH}?type=artist&q=${query}&token=${token}&`,
+      `${CONFIG.API_ENDPOINTS.SEARCH}?type=artist&q=${query}`,
       {
         headers: {
           "Content-Type": "application/json",
-          Authorization: `Bearer ${token}`,
+          // Authorization: `Bearer ${token}`,
         },
       }
     )
@@ -27,6 +27,7 @@ export default class Requests {
       .catch((error) => {
         console.log(error);
       });
+
     return response;
   }
   static async NextPage(token, url) {

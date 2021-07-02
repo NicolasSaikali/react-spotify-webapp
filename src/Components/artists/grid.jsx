@@ -1,4 +1,5 @@
 import React, { useEffect } from "react";
+import { globalStateContext, dispatchStateContext } from "../../Context";
 import StarRatings from "react-star-ratings";
 function kFormatter(num) {
   return Math.abs(num) > 999
@@ -7,6 +8,10 @@ function kFormatter(num) {
 }
 
 export default function ArtistGrid(props) {
+  const [ctx, setctx] = [
+    React.useContext(globalStateContext),
+    React.useContext(dispatchStateContext),
+  ];
   const [data, setData] = React.useState(null);
 
   React.useEffect(() => {
@@ -17,6 +22,9 @@ export default function ArtistGrid(props) {
       <div
         className={`artist-grid mb-3 ${props.active && "active"}`}
         onClick={() => {
+          let tmp = ctx;
+          tmp.currentArtist = props.artist;
+          setctx(tmp);
           props.setActive(props.artist);
         }}
       >

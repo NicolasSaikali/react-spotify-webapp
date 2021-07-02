@@ -1,7 +1,7 @@
 import React, { useEffect } from "react";
 import { globalStateContext, dispatchStateContext } from "../Context";
-import Home from "./../Components/home";
-import Login from "../Components/Login";
+import Home from "./home";
+import Login from "./Login";
 import Requests from "../requests";
 import { CONFIG } from "./../config";
 export default function Landing(props) {
@@ -53,6 +53,7 @@ export default function Landing(props) {
         cookieAuth[key] = value;
         previousContext[key] = value;
       });
+      // cookieAuth["expires_in"] = 10;
       cookieAuth["expires_in"] -= -Math.round(new Date().getTime() / 1000);
       previousContext["expires_in"] = parseInt(cookieAuth["expires_in"]);
     }

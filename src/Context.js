@@ -3,8 +3,9 @@ import React from "react";
 export const defaultGlobalState = {
   user: {
     id: null,
-    wishlist: [],
   },
+  currentArtist: null,
+  currentArtistLoading: false,
 };
 
 export const globalStateContext = React.createContext(defaultGlobalState);
